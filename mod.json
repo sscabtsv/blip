@@ -7,7 +7,7 @@
     "id": "jimmy.mobile-ui-example",
     "name": "Mobile UI Example",
     "developer": "Jimmy",
-    "description": "An example mod demonstrating a simple, touch-friendly mobile UI built with Geode's UI system.",
+    "description": "An example mod demonstrating a custom-styled, touch-friendly mobile UI popup opened from the pause menu.",
     "tags": [
         "interface"
     ],
