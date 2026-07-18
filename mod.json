@@ -1,0 +1,17 @@
+{
+    "geode": "5.3.0",
+    "gd": {
+        "android": "2.2081"
+    },
+    "version": "v1.0.0",
+    "id": "jimmy.mobile-ui-example",
+    "name": "Mobile UI Example",
+    "developer": "Jimmy",
+    "description": "An example mod demonstrating a simple, touch-friendly mobile UI built with Geode's UI system.",
+    "tags": [
+        "interface"
+    ],
+    "dependencies": {
+        "geode.node-ids": ">=v1.20.0"
+    }
+}
