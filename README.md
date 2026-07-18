@@ -1,16 +1,18 @@
 # Mobile UI Example
 
-A minimal Geode mod for Geometry Dash demonstrating a simple mobile UI popup. Built against:
+A minimal Geode mod for Geometry Dash demonstrating a custom-styled mobile UI popup. Built against:
 
 - Geode: `5.3.0`
 - GD (Android): `2.2081`
 
 ## What it does
 
-Adds a button to the bottom menu of the main menu. Tapping it opens a popup containing:
+Adds a button to the **pause menu** (shown when you pause inside a level). Tapping it opens a popup containing:
 
-- A scaled label
-- A large, touch-friendly button that shows a notification
+- A gold accent divider under the title
+- A soft background panel behind the content
+- A description label that automatically word-wraps instead of running off the edge
+- A large, touch-friendly button (gold-styled) that shows a notification
 - A standard toggle switch
 
 All controls are arranged automatically with Geode's `ColumnLayout`.
@@ -23,7 +25,7 @@ mobile-ui-example/
 ├── CMakeLists.txt                # CMake build config
 ├── about.md                      # In-game "About" page
 ├── src/
-│   └── main.cpp                  # Popup + MenuLayer hook
+│   └── main.cpp                  # Popup + PauseLayer hook
 └── .github/workflows/build.yml   # CI: builds Android32 + Android64 and packages a .geode file
 ```
 
@@ -43,5 +45,4 @@ Push this repo to GitHub (or fork/clone it there) and the included workflow will
 
 ## Notes
 
-- This mod depends on [`geode.node-ids`](https://geode-sdk.org/mods/geode.node-ids) to reliably find the main menu's bottom button row (`bottom-menu`). It'll be pulled in automatically as a dependency.
-- Only targets Android since that's the platform specified — add `win`/`mac`/`ios` versions to `mod.json`'s `gd` field and extend the build matrix in `build.yml` if you want other platforms too.
+- The button is added to the pause menu's `right-button-menu` (via [`geode.node-ids`](https://geode-sdk.org/mods/geode.node-ids)). If that container isn't found for any reason, the code falls back to placing the button manually in the top-right corner, so it never silently disappears.
