@@ -1,26 +1,31 @@
 #include <Geode/Geode.hpp>
 #include <Geode/modify/MenuLayer.hpp>
-#include <Geode/ui/SceneManager.hpp>
+#include <Geode/modify/PlayLayer.hpp>
 #include "FloatingButton.hpp"
 
 using namespace geode::prelude;
 
+namespace {
+    void spawnFloatingButton(CCLayer* layer) {
+        auto winSize = CCDirector::sharedDirector()->getWinSize();
+        auto fab = FloatingButton::create();
+        fab->setPosition({ winSize.width - 70.f, 90.f });
+        layer->addChild(fab, 1000000);
+    }
+}
+
 class $modify(MobileUIMenuLayer, MenuLayer) {
     bool init() {
         if (!MenuLayer::init()) return false;
+        spawnFloatingButton(this);
+        return true;
+    }
+};
 
-        static bool s_created = false;
-        if (!s_created) {
-            s_created = true;
-
-            auto winSize = CCDirector::sharedDirector()->getWinSize();
-            auto fab = FloatingButton::create();
-            fab->setPosition({ winSize.width - 70.f, 90.f });
-
-            this->addChild(fab, 1000000);
-            SceneManager::get()->keepAcrossScenes(fab);
-        }
-
+class $modify(MobileUIPlayLayer, PlayLayer) {
+    bool init(GJGameLevel* level, bool useReplay, bool dontCreateObjects) {
+        if (!PlayLayer::init(level, useReplay, dontCreateObjects)) return false;
+        spawnFloatingButton(this);
         return true;
     }
 };
