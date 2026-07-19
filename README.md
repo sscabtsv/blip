@@ -1,33 +1,47 @@
 # Mobile UI Example
 
-A minimal Geode mod for Geometry Dash demonstrating a custom-styled mobile UI popup. Built against:
+A fully custom, Eclipse-inspired mod menu for Geometry Dash, built from scratch with Geode. Built against:
 
 - Geode: `5.3.0`
 - GD (Android): `2.2081`
 
 ## What it does
 
-Adds a button to the **pause menu** (shown when you pause inside a level). Tapping it opens a popup containing:
+A small floating button appears on screen persistently — main menu, level list, in a level, everywhere — inspired by the "Eclipse" mod's floating menu button. It's draggable to reposition, and tapping it (without dragging) opens a custom panel:
 
-- A gold accent divider under the title
-- A soft background panel behind the content
-- A description label that automatically word-wraps instead of running off the edge
-- A large, touch-friendly button (gold-styled) that shows a notification
-- A standard toggle switch
-
-All controls are arranged automatically with Geode's `ColumnLayout`.
+- **Draggable window** — drag by the header to move it anywhere on screen
+- **Tabs** — General / Display / About, with a sliding accent-color indicator and a pop-in animation when switching
+- **Custom animated toggles** — no checkmarks; the track cross-fades from grey to the accent color while the knob slides across, with a little squash-and-settle on release
+- **Premium buttons** — press/release scale animation plus a brief color flash on tap
+- **Fully custom art** — every panel, button, toggle, and the floating button itself use hand-generated textures (baked-in soft shadows, subtle gradients, rounded corners) instead of any stock GD popup sprite
 
 ## Project layout
 
 ```
 mobile-ui-example/
-├── mod.json                     # Mod metadata (id, version, target Geode/GD versions)
-├── CMakeLists.txt                # CMake build config
-├── about.md                      # In-game "About" page
+├── mod.json                        # Metadata + custom spritesheet registration
+├── CMakeLists.txt                   # CMake build config
+├── about.md                         # In-game "About" page
+├── resources/                       # Custom-generated art (panel, knob, track, FAB, icons)
 ├── src/
-│   └── main.cpp                  # Popup + PauseLayer hook
-└── .github/workflows/build.yml   # CI: builds Android32 + Android64 and packages a .geode file
+│   ├── Theme.hpp                    # Shared design tokens: colors, spacing, animation timing
+│   ├── PremiumButton.hpp            # Button + panel-sprite factory, tap-flash helper
+│   ├── PremiumToggle.hpp/.cpp       # Custom animated toggle switch
+│   ├── DraggablePanel.hpp/.cpp      # The main window: header, tabs, content, animations
+│   ├── FloatingButton.hpp/.cpp      # The persistent, draggable Eclipse-style FAB
+│   └── main.cpp                     # Hooks MenuLayer once to spawn the persistent FAB
+└── .github/workflows/build.yml      # CI: builds Android32 + Android64, packages a .geode file
 ```
+
+## How persistence works
+
+The floating button is created once (guarded by a static flag) the first time `MenuLayer::init` runs, then registered with Geode's `SceneManager::keepAcrossScenes`, which keeps it alive and attached across every subsequent scene change — so it follows you from the main menu into levels, the editor, etc.
+
+## A couple of deliberate simplifications
+
+Geometry Dash's rendering stack (an older cocos2d-x 2.x fork) doesn't support live shader-based blur or runtime gradients, so:
+- Shadows and gradients are **baked into the generated PNGs** (`resources/*.png`) rather than computed at runtime — this is what actually gives the "soft shadow / subtle gradient" look.
+- The toggle's fill animation is a **color cross-fade + sliding knob**, not a literal left-to-right wipe mask (true clip-mask wipes are possible but meaningfully riskier in this engine for the payoff).
 
 ## Building locally
 
@@ -37,12 +51,6 @@ Requires the [Geode CLI](https://docs.geode-sdk.org/getting-started/) and SDK in
 geode build
 ```
 
-The resulting `.geode` file will be in the `build/` directory (or auto-installed to GD if you've set up a profile with the CLI).
-
 ## Building with GitHub Actions
 
-Push this repo to GitHub (or fork/clone it there) and the included workflow will build Android32 and Android64 automatically on every push, combining them into a single `.geode` file available as a workflow artifact under **Actions → (latest run) → Build Output**.
-
-## Notes
-
-- The button is added to the pause menu's `right-button-menu` (via [`geode.node-ids`](https://geode-sdk.org/mods/geode.node-ids)). If that container isn't found for any reason, the code falls back to placing the button manually in the top-right corner, so it never silently disappears.
+Push this repo to GitHub and the included workflow builds Android32 + Android64 on every push, combining them into a single `.geode` file available as a workflow artifact under **Actions → (latest run) → Build Output**.
