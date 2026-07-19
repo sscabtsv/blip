@@ -11,7 +11,7 @@ protected:
     float m_dragDistance = 0.f;
     cocos2d::CCPoint m_lastTouchPos;
 
-    bool init();
+    bool init() override;
     void togglePanel();
 
 public:
