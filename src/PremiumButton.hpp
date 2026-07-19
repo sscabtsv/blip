@@ -13,7 +13,7 @@ namespace ui {
         return s9;
     }
 
-    inline cocos2d::CCMenuItemSpriteExtra* createButton(
+    inline CCMenuItemSpriteExtra* createButton(
         std::string const& text,
         cocos2d::ccColor3B bgColor,
         float width,
@@ -29,7 +29,7 @@ namespace ui {
         label->setColor(theme::kTextPrimary);
         bg->addChild(label);
 
-        return cocos2d::CCMenuItemSpriteExtra::create(bg, target, selector);
+        return CCMenuItemSpriteExtra::create(bg, target, selector);
     }
 
     // Briefly flashes a background sprite towards white and back, giving
