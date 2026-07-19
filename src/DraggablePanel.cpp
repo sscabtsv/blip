@@ -130,7 +130,7 @@ bool DraggablePanel::init() {
         item->setPosition({ tabW * i + tabW / 2.f, TABS_H / 2.f });
         tabsMenu->addChild(item);
 
-        m_tabIndicatorPositions[i] = { tabW * i + tabW / 2.f, 3.f };
+        m_tabIndicatorPositions[i] = CCPoint(tabW * i + tabW / 2.f, 3.f);
     }
 
     m_tabIndicator->setPosition(m_tabIndicatorPositions[0]);
