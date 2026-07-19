@@ -11,7 +11,7 @@ protected:
     cocos2d::CCLabelBMFont* m_tabLabels[3] = { nullptr, nullptr, nullptr };
     cocos2d::CCPoint m_tabIndicatorPositions[3];
 
-    bool init();
+    bool init() override;
     cocos2d::CCNode* buildGeneralTab(float w, float h);
     cocos2d::CCNode* buildDisplayTab(float w, float h);
     cocos2d::CCNode* buildAboutTab(float w, float h);
