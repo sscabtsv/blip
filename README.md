@@ -54,3 +54,5 @@ geode build
 ## Building with GitHub Actions
 
 Push this repo to GitHub and the included workflow builds Android32 + Android64 on every push, combining them into a single `.geode` file available as a workflow artifact under **Actions → (latest run) → Build Output**.
+
+Yes
