@@ -3,15 +3,19 @@
     "gd": {
         "android": "2.2081"
     },
-    "version": "v1.0.0",
+    "version": "v2.0.0",
     "id": "jimmy.mobile-ui-example",
     "name": "Mobile UI Example",
     "developer": "Jimmy",
-    "description": "An example mod demonstrating a custom-styled, touch-friendly mobile UI popup opened from the pause menu.",
+    "description": "A fully custom, Eclipse-inspired floating menu with a draggable panel, tabs, animated toggles, and premium-styled buttons.",
     "tags": [
         "interface"
     ],
-    "dependencies": {
-        "geode.node-ids": ">=v1.20.0"
+    "resources": {
+        "spritesheets": {
+            "UISheet": [
+                "resources/*.png"
+            ]
+        }
     }
 }
